@@ -1,6 +1,6 @@
 {
-    "name": "todolist",
-    "short_name": "todolist",
+    "name": "notas",
+    "short_name": "notas",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
