@@ -1,16 +1,16 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'todo.g.dart';
+part 'nota.g.dart';
 
 @JsonSerializable()
-class Todo {
+class Nota {
   String titulo, cuerpo, fecha;
-  Todo({
+  Nota({
     required this.titulo,
     required this.cuerpo,
     required this.fecha,
   });
 
-  factory Todo.fromJson(Map<String, dynamic> json) => _$TodoFromJson(json);
-  Map<String, dynamic> toJson() => _$TodoToJson(this);
+  factory Nota.fromJson(Map<String, dynamic> json) => _$NotaFromJson(json);
+  Map<String, dynamic> toJson() => _$NotaToJson(this);
 }

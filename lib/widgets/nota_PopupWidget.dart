@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../models/todo.dart';
+import '../models/nota.dart';
 import '../services/preferences_list.dart';
 
-Future<dynamic> todoPopupWidget(BuildContext context) {
+Future<dynamic> NotaPopupWidget(BuildContext context) {
   return showDialog(
     context: context,
     builder: (context) {
@@ -21,27 +21,13 @@ Future<dynamic> todoPopupWidget(BuildContext context) {
                 ),
               ),
               TextField(
+                keyboardType: TextInputType.multiline,
+                minLines: 3,
+                maxLines: 10,
                 controller: cuerpoController,
                 decoration: const InputDecoration(
                   hintText: 'Que quieres hacer?',
                 ),
-              ),
-              TextField(
-                controller: fechaController,
-                decoration: const InputDecoration(
-                  hintText: 'Para cuando?',
-                ),
-                onTap: () async {
-                  DateTime? date = await showDatePicker(
-                    context: context,
-                    initialDate: DateTime.now(),
-                    firstDate: DateTime.now(),
-                    lastDate: DateTime.now().add(
-                      const Duration(days: 30),
-                    ),
-                  );
-                  fechaController.text = DateFormat.yMd().format(date!);
-                },
               ),
             ],
           ),
@@ -55,12 +41,12 @@ Future<dynamic> todoPopupWidget(BuildContext context) {
           ),
           TextButton(
             onPressed: () {
-              todoList.add(
-                Todo(
-                    titulo: tituloController.text, //
-                    cuerpo: cuerpoController.text,
-                    fecha: fechaController.text),
-              );
+              fechaController.text = DateFormat.yMd().format(DateTime.now());
+              notas.add(Nota(
+                titulo: tituloController.text, //
+                cuerpo: cuerpoController.text,
+                fecha: fechaController.text,
+              ));
               Navigator.of(context).pop();
             },
             child: const Text("Acceptar"),

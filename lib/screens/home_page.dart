@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../services/preferences_list.dart';
-import '../widgets/todo_popup.dart';
+import '../widgets/nota_PopupWidget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -14,7 +14,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    PreferencesList().readTodoPref().then((_) => setState(() {}));
+    PreferencesList().readNotaPref().then((_) => setState(() {}));
   }
 
   @override
@@ -29,20 +29,19 @@ class _HomePageState extends State<HomePage> {
           children: [
             ListView.builder(
               shrinkWrap: true,
-              itemCount: todoList.length,
+              itemCount: notas.length,
               itemBuilder: (context, index) {
-                var todo = todoList[index];
+                var nota = notas[index];
                 return Column(
                   children: [
                     Text(
-                      todo.titulo,
+                      nota.titulo,
                       style: const TextStyle(
-                        fontSize: 20,
+                        fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    Text(todo.fecha),
-                    Text(todo.cuerpo),
+                    Text(nota.fecha),
                   ],
                 );
               },
@@ -52,7 +51,7 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          todoPopupWidget(context).then((_) => PreferencesList().writeTodoPref()).then((_) => setState(() {}));
+          NotaPopupWidget(context).then((_) => PreferencesList().writeNotaPref()).then((_) => setState(() {}));
         },
         child: const Icon(Icons.note_add),
       ),
