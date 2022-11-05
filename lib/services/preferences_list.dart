@@ -6,7 +6,14 @@ import '../models/nota.dart';
 
 List<Nota> notas = <Nota>[];
 
+late String valorEscogido;
+
 class PreferencesList {
+  Future<void> initPref() async {
+    valorEscogido = await PreferencesList().readSortPref();
+    await PreferencesList().readNotaPref();
+  }
+
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   Future<void> writeNotaPref() async {
     final SharedPreferences prefs = await _prefs;
@@ -18,5 +25,16 @@ class PreferencesList {
     final SharedPreferences prefs = await _prefs;
     List<String>? spList = prefs.getStringList('Notas');
     notas = spList?.map((nota) => Nota.fromJson(convert.jsonDecode(nota))).toList() ?? [];
+  }
+
+  Future<void> writeSortPref(sort) async {
+    final SharedPreferences prefs = await _prefs;
+    prefs.setString('Sort', sort);
+  }
+
+  Future<String> readSortPref() async {
+    final SharedPreferences prefs = await _prefs;
+    final sortPref = prefs.getString('Sort');
+    return sortPref ?? 'Fecha';
   }
 }

@@ -4,7 +4,8 @@ part 'nota.g.dart';
 
 @JsonSerializable()
 class Nota {
-  String titulo, cuerpo, fecha;
+  String titulo, cuerpo;
+  DateTime fecha;
   Nota({
     required this.titulo,
     required this.cuerpo,
