@@ -19,16 +19,20 @@ class NotaPage extends ConsumerWidget {
     tituloController.text = nota.titulo;
     return WillPopScope(
       onWillPop: () async {
-        ref.read(notasStateNotifierProvider.notifier).updateNota(
-            Nota(
-              titulo: tituloController.text,
-              cuerpo: cuerpoController.text,
-              fecha: nota.fecha,
-              id: nota.id,
-              angle: nota.angle,
-              color: nota.color,
-            ),
-            nota.id);
+        if (nota.titulo != tituloController.text || nota.cuerpo != cuerpoController.text) {
+          ref.read(notasStateNotifierProvider.notifier).updateNota(
+              Nota(
+                titulo: tituloController.text,
+                cuerpo: cuerpoController.text,
+                fecha: nota.fecha,
+                id: nota.id,
+                angle: nota.angle,
+                color: nota.color,
+              ),
+              nota.id);
+          final notas = ref.watch(notasStateNotifierProvider);
+          PreferencesList().writeNotaPref(notas);
+        }
         return true;
       },
       child: Scaffold(
@@ -64,7 +68,7 @@ class NotaPage extends ConsumerWidget {
                 child: Card(
                   color: Color(nota.color),
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(25.0),
                     child: EditableText(
                       maxLines: null,
                       backgroundCursorColor: Colors.black,
