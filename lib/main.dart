@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'screens/home_page.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -12,10 +13,33 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
+      title: 'Notas',
       theme: ThemeData(
-        primarySwatch: Colors.purple,
-      ),
+          textSelectionTheme: const TextSelectionThemeData(
+            cursorColor: Colors.white,
+          ),
+          brightness: Brightness.dark,
+          appBarTheme: const AppBarTheme(
+            backgroundColor: Color(0xff76504E),
+          ),
+          scaffoldBackgroundColor: const Color(0xff86736C),
+          inputDecorationTheme: const InputDecorationTheme(
+            hintStyle: TextStyle(color: Colors.white),
+            focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(
+                color: Colors.white,
+              ),
+            ),
+          ),
+          dialogTheme: const DialogTheme(
+            backgroundColor: Color(0xff76504E),
+          ),
+          textButtonTheme: const TextButtonThemeData(style: ButtonStyle(foregroundColor: MaterialStatePropertyAll(Colors.white))),
+          floatingActionButtonTheme: const FloatingActionButtonThemeData(
+            foregroundColor: Colors.white,
+            backgroundColor: Color(0xff76504E),
+          )),
       home: const HomePage(),
     );
   }
