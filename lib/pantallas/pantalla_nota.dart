@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:notas/services/preferences_list.dart';
-import 'package:notas/services/providers.dart';
+import 'package:notas/servicios/lista_de_preferencias.dart';
+import 'package:notas/servicios/proveedor.dart';
 
-import '../models/nota.dart';
+import '../modelos/nota.dart';
 
-class NotaPage extends ConsumerWidget {
+class PantallaNota extends ConsumerWidget {
   final Nota nota;
   final int index;
-  NotaPage({required this.nota, required this.index, super.key});
+  PantallaNota({required this.nota, required this.index, super.key});
   final cuerpoController = TextEditingController();
   final tituloController = TextEditingController();
   final cuerpoFocus = FocusNode();
@@ -20,18 +20,18 @@ class NotaPage extends ConsumerWidget {
     return WillPopScope(
       onWillPop: () async {
         if (nota.titulo != tituloController.text || nota.cuerpo != cuerpoController.text) {
-          ref.read(notasStateNotifierProvider.notifier).updateNota(
+          ref.read(notasStateNotifierProvider.notifier).actualizarNota(
               Nota(
                 titulo: tituloController.text,
                 cuerpo: cuerpoController.text,
                 fecha: nota.fecha,
                 id: nota.id,
-                angle: nota.angle,
+                angulo: nota.angulo,
                 color: nota.color,
               ),
               nota.id);
-          final notas = ref.watch(notasStateNotifierProvider);
-          PreferencesList().writeNotaPref(notas);
+          final listaDeNotas = ref.watch(notasStateNotifierProvider);
+          ListaDePreferencias().escribirNotaPref(listaDeNotas);
         }
         return true;
       },
@@ -42,9 +42,9 @@ class NotaPage extends ConsumerWidget {
               padding: const EdgeInsets.all(5),
               constraints: const BoxConstraints(),
               onPressed: () {
-                ref.read(notasStateNotifierProvider.notifier).removeNota(nota.id);
-                List<Nota> notas = ref.watch(notasStateNotifierProvider);
-                PreferencesList().writeNotaPref(notas);
+                ref.read(notasStateNotifierProvider.notifier).eliminaNota(nota.id);
+                List<Nota> listaDeNotas = ref.watch(notasStateNotifierProvider);
+                ListaDePreferencias().escribirNotaPref(listaDeNotas);
                 Navigator.of(context).pop();
               },
               icon: const Icon(Icons.delete_forever),

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:notas/services/preferences_list.dart';
-import 'package:notas/services/providers.dart';
-import '../models/nota.dart';
-import '../functions/objeto_random.dart';
+import 'package:notas/servicios/lista_de_preferencias.dart';
+import 'package:notas/servicios/proveedor.dart';
+import '../modelos/nota.dart';
+import '../funciones/objeto_random.dart';
 
-Future<dynamic> notaPopupWidget(BuildContext context, WidgetRef ref) {
+Future<dynamic> agregarNotaDialogoWidget(BuildContext context, WidgetRef ref) {
   return showDialog(
     context: context,
     builder: (context) {
@@ -23,13 +23,14 @@ Future<dynamic> notaPopupWidget(BuildContext context, WidgetRef ref) {
                 ),
               ),
               TextField(
-                  keyboardType: TextInputType.multiline,
-                  minLines: 3,
-                  maxLines: 10,
-                  controller: cuerpoController,
-                  decoration: const InputDecoration(
-                    hintText: 'Cuerpo',
-                  )),
+                keyboardType: TextInputType.multiline,
+                minLines: 3,
+                maxLines: 10,
+                controller: cuerpoController,
+                decoration: const InputDecoration(
+                  hintText: 'Cuerpo',
+                ),
+              ),
             ],
           ),
         ),
@@ -42,19 +43,23 @@ Future<dynamic> notaPopupWidget(BuildContext context, WidgetRef ref) {
           ),
           TextButton(
             onPressed: () {
-              DateTime date = DateTime.now();
-              int angle = ObjetoRandom().randomBetween(350, 355);
+              //collectando neuvos variables
+              DateTime fecha = DateTime.now();
+              int angulo = ObjetoRandom().randomBetween(350, 355);
               int color = ObjetoRandom().colorRandom();
-              ref.read(notasStateNotifierProvider.notifier).addNota(Nota(
+              //escribiendo la nota en Riverpod
+              ref.read(notasStateNotifierProvider.notifier).agregaNota(Nota(
                     titulo: tituloController.text,
                     cuerpo: cuerpoController.text,
-                    fecha: date,
-                    id: date.toString(),
-                    angle: angle,
+                    fecha: fecha,
+                    id: fecha.toString(),
+                    angulo: angulo,
                     color: color,
                   ));
-              List<Nota> notas = ref.watch(notasStateNotifierProvider);
-              PreferencesList().writeNotaPref(notas);
+              //leyendo nueva lista de notas
+              List<Nota> listaDeNotas = ref.watch(notasStateNotifierProvider);
+              //guardando nueva lista en shared_preferences
+              ListaDePreferencias().escribirNotaPref(listaDeNotas);
               Navigator.of(context).pop();
             },
             child: const Text("Acceptar"),

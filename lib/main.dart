@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'screens/home_page.dart';
+import 'pantallas/pantalla_home.dart';
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));
@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
             foregroundColor: Colors.white,
             backgroundColor: Color(0xff76504E),
           )),
-      home: const HomePage(),
+      home: const PantallaHome(),
     );
   }
 }

@@ -1,22 +1,22 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../models/nota.dart';
+import '../modelos/nota.dart';
 
 class NotasNotifier extends StateNotifier<List<Nota>> {
   NotasNotifier() : super([]);
 
-  void addNota(Nota nota) {
+  void agregaNota(Nota nota) {
     state = [...state, nota];
   }
 
-  void removeNota(String notaId) {
+  void eliminaNota(String notaId) {
     state = [
       for (final nota in state)
         if (nota.id != notaId) nota,
     ];
   }
 
-  void updateNota(Nota newNota, String notaId) {
+  void actualizarNota(Nota newNota, String notaId) {
     state = [
       for (final nota in state)
         if (nota.id != notaId) nota,

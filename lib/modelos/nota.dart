@@ -8,7 +8,7 @@ part 'nota.g.dart';
 @immutable
 class Nota {
   final String titulo, cuerpo, id;
-  final int angle, color;
+  final int angulo, color;
   final DateTime fecha;
   const Nota({
     required this.titulo,
@@ -16,7 +16,7 @@ class Nota {
     required this.fecha,
     required this.id,
     required this.color,
-    required this.angle,
+    required this.angulo,
   });
 
   factory Nota.fromJson(Map<String, dynamic> json) => _$NotaFromJson(json);
@@ -26,7 +26,7 @@ class Nota {
     String? cuerpo,
     String? id,
     int? color,
-    int? angle,
+    int? angulo,
     DateTime? fecha,
   }) {
     return Nota(
@@ -35,7 +35,7 @@ class Nota {
       fecha: fecha ?? this.fecha,
       id: id ?? this.id,
       color: color ?? this.color,
-      angle: angle ?? this.angle,
+      angulo: angulo ?? this.angulo,
     );
   }
 }

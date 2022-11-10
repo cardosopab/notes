@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:notas/services/providers.dart';
+import 'package:notas/servicios/proveedor.dart';
 
-import '../models/nota.dart';
+import '../modelos/nota.dart';
 
 class Busqueda {
   List<Nota> busqueda(WidgetRef ref, valor, List<Nota> lista) {
@@ -18,15 +18,15 @@ class Busqueda {
   }
 
   List<Nota> buscaTitulo(WidgetRef ref, valor) {
-    List<Nota> notas = ref.watch(notasStateNotifierProvider);
-    return notas.where((element) {
+    List<Nota> listaDeNotas = ref.watch(notasStateNotifierProvider);
+    return listaDeNotas.where((element) {
       return element.titulo.toLowerCase().contains(valor.toLowerCase());
     }).toList();
   }
 
   List<Nota> buscaCuerpo(WidgetRef ref, valor) {
-    List<Nota> notas = ref.watch(notasStateNotifierProvider);
-    return notas.where((element) {
+    List<Nota> listaDeNotas = ref.watch(notasStateNotifierProvider);
+    return listaDeNotas.where((element) {
       return element.cuerpo.toLowerCase().contains(valor.toLowerCase());
     }).toList();
   }
