@@ -2,34 +2,34 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:notas/servicios/lista_de_preferencias.dart';
 import 'package:notas/servicios/proveedor.dart';
-
 import '../modelos/nota.dart';
 
 class PantallaNota extends ConsumerWidget {
   final Nota nota;
-  final int index;
-  PantallaNota({required this.nota, required this.index, super.key});
-  final cuerpoController = TextEditingController();
-  final tituloController = TextEditingController();
-  final cuerpoFocus = FocusNode();
-  final tituloFocus = FocusNode();
+  PantallaNota({required this.nota, super.key});
+  final controladorDeTextoDeCuerpo = TextEditingController();
+  final controladorDeTextoDeTitulo = TextEditingController();
+  final enfoqueDeCuerpo = FocusNode();
+  final enfoqueDeTitulo = FocusNode();
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    cuerpoController.text = nota.cuerpo;
-    tituloController.text = nota.titulo;
+    controladorDeTextoDeCuerpo.text = nota.cuerpo;
+    controladorDeTextoDeTitulo.text = nota.titulo;
     return WillPopScope(
       onWillPop: () async {
-        if (nota.titulo != tituloController.text || nota.cuerpo != cuerpoController.text) {
-          ref.read(notasStateNotifierProvider.notifier).actualizarNota(
+        //si hubo cambios bora la nota, y crea nota nueva con cuerpo y titulo nuevo
+        if (nota.titulo != controladorDeTextoDeTitulo.text || nota.cuerpo != controladorDeTextoDeCuerpo.text) {
+          ref.read(notasStateNotifierProvider.notifier).actualizaNota(
               Nota(
-                titulo: tituloController.text,
-                cuerpo: cuerpoController.text,
+                titulo: controladorDeTextoDeTitulo.text,
+                cuerpo: controladorDeTextoDeCuerpo.text,
                 fecha: nota.fecha,
                 id: nota.id,
                 angulo: nota.angulo,
                 color: nota.color,
               ),
               nota.id);
+          // guarda nueva listaDeNotas con shared_preferences
           final listaDeNotas = ref.watch(notasStateNotifierProvider);
           ListaDePreferencias().escribirNotaPref(listaDeNotas);
         }
@@ -42,7 +42,9 @@ class PantallaNota extends ConsumerWidget {
               padding: const EdgeInsets.all(5),
               constraints: const BoxConstraints(),
               onPressed: () {
+                // borra nota
                 ref.read(notasStateNotifierProvider.notifier).eliminaNota(nota.id);
+                // guarda la listaDeNotas sin la nota borrada, con shared_preferences
                 List<Nota> listaDeNotas = ref.watch(notasStateNotifierProvider);
                 ListaDePreferencias().escribirNotaPref(listaDeNotas);
                 Navigator.of(context).pop();
@@ -54,9 +56,9 @@ class PantallaNota extends ConsumerWidget {
           title: EditableText(
             textAlign: TextAlign.center,
             backgroundCursorColor: Colors.black,
-            controller: tituloController,
+            controller: controladorDeTextoDeTitulo,
             cursorColor: Colors.white,
-            focusNode: tituloFocus,
+            focusNode: enfoqueDeTitulo,
             style: const TextStyle(color: Colors.white),
           ),
         ),
@@ -72,9 +74,9 @@ class PantallaNota extends ConsumerWidget {
                     child: EditableText(
                       maxLines: null,
                       backgroundCursorColor: Colors.black,
-                      controller: cuerpoController,
+                      controller: controladorDeTextoDeCuerpo,
                       cursorColor: Colors.white,
-                      focusNode: cuerpoFocus,
+                      focusNode: enfoqueDeCuerpo,
                       style: const TextStyle(color: Colors.white),
                     ),
                   ),

@@ -5,19 +5,19 @@ import 'package:notas/servicios/proveedor.dart';
 import '../modelos/nota.dart';
 import '../funciones/objeto_random.dart';
 
-Future<dynamic> agregarNotaDialogoWidget(BuildContext context, WidgetRef ref) {
+Future<dynamic> agregaNotaDialogoWidget(BuildContext context, WidgetRef ref) {
   return showDialog(
     context: context,
     builder: (context) {
-      final tituloController = TextEditingController();
-      final cuerpoController = TextEditingController();
+      final controladorDeTextoDeTitulo = TextEditingController();
+      final controladorDeTextoDeCuerpo = TextEditingController();
       return AlertDialog(
         title: const Text("Agrega una nota"),
         content: SingleChildScrollView(
           child: Column(
             children: [
               TextField(
-                controller: tituloController,
+                controller: controladorDeTextoDeTitulo,
                 decoration: const InputDecoration(
                   hintText: 'Titulo',
                 ),
@@ -26,7 +26,7 @@ Future<dynamic> agregarNotaDialogoWidget(BuildContext context, WidgetRef ref) {
                 keyboardType: TextInputType.multiline,
                 minLines: 3,
                 maxLines: 10,
-                controller: cuerpoController,
+                controller: controladorDeTextoDeCuerpo,
                 decoration: const InputDecoration(
                   hintText: 'Cuerpo',
                 ),
@@ -43,14 +43,14 @@ Future<dynamic> agregarNotaDialogoWidget(BuildContext context, WidgetRef ref) {
           ),
           TextButton(
             onPressed: () {
-              //collectando neuvos variables
+              //coleccionando neuvos variables
               DateTime fecha = DateTime.now();
-              int angulo = ObjetoRandom().randomBetween(350, 355);
+              int angulo = ObjetoRandom().randomNumberoEntre(350, 355);
               int color = ObjetoRandom().colorRandom();
-              //escribiendo la nota en Riverpod
+              //agregando la nota con Riverpod
               ref.read(notasStateNotifierProvider.notifier).agregaNota(Nota(
-                    titulo: tituloController.text,
-                    cuerpo: cuerpoController.text,
+                    titulo: controladorDeTextoDeTitulo.text,
+                    cuerpo: controladorDeTextoDeCuerpo.text,
                     fecha: fecha,
                     id: fecha.toString(),
                     angulo: angulo,
@@ -58,7 +58,7 @@ Future<dynamic> agregarNotaDialogoWidget(BuildContext context, WidgetRef ref) {
                   ));
               //leyendo nueva lista de notas
               List<Nota> listaDeNotas = ref.watch(notasStateNotifierProvider);
-              //guardando nueva lista en shared_preferences
+              //guardando nueva lista con shared_preferences
               ListaDePreferencias().escribirNotaPref(listaDeNotas);
               Navigator.of(context).pop();
             },

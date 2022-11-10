@@ -15,30 +15,31 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Notas',
       theme: ThemeData(
-          textSelectionTheme: const TextSelectionThemeData(
-            cursorColor: Colors.white,
-          ),
-          brightness: Brightness.dark,
-          appBarTheme: const AppBarTheme(
-            backgroundColor: Color(0xff76504E),
-          ),
-          scaffoldBackgroundColor: const Color(0xff86736C),
-          inputDecorationTheme: const InputDecorationTheme(
-            hintStyle: TextStyle(color: Colors.white),
-            focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(
-                color: Colors.white,
-              ),
+        textSelectionTheme: const TextSelectionThemeData(
+          cursorColor: Colors.white,
+        ),
+        brightness: Brightness.dark,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Color(0xff76504E),
+        ),
+        scaffoldBackgroundColor: const Color(0xff86736C),
+        inputDecorationTheme: const InputDecorationTheme(
+          hintStyle: TextStyle(color: Colors.white),
+          focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.white,
             ),
           ),
-          dialogTheme: const DialogTheme(
-            backgroundColor: Color(0xff76504E),
-          ),
-          textButtonTheme: const TextButtonThemeData(style: ButtonStyle(foregroundColor: MaterialStatePropertyAll(Colors.white))),
-          floatingActionButtonTheme: const FloatingActionButtonThemeData(
-            foregroundColor: Colors.white,
-            backgroundColor: Color(0xff76504E),
-          )),
+        ),
+        dialogTheme: const DialogTheme(
+          backgroundColor: Color(0xff76504E),
+        ),
+        textButtonTheme: const TextButtonThemeData(style: ButtonStyle(foregroundColor: MaterialStatePropertyAll(Colors.white))),
+        floatingActionButtonTheme: const FloatingActionButtonThemeData(
+          foregroundColor: Colors.white,
+          backgroundColor: Color(0xff76504E),
+        ),
+      ),
       home: const PantallaHome(),
     );
   }
