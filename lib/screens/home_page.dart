@@ -70,6 +70,7 @@ class HomePageState extends ConsumerState<HomePage> {
             focusNode.unfocus();
             borrarBusqueda();
             busquedaResultados.clear();
+            isVisible = false;
             setState(() {});
           },
           child: Column(
@@ -91,7 +92,9 @@ class HomePageState extends ConsumerState<HomePage> {
                             onChanged: (valor) {
                               if (valor.isEmpty) {
                                 busquedaResultados.clear();
+                                isVisible = false;
                               } else {
+                                isVisible = true;
                                 List<Nota> listaDeTitulos = [];
                                 List<Nota> listaDeCuerpo = [];
 
@@ -116,6 +119,10 @@ class HomePageState extends ConsumerState<HomePage> {
                                         icon: const Icon(Icons.cancel),
                                         onPressed: (() {
                                           // deleteSearch();
+                                          isVisible = false;
+                                          borrarBusqueda();
+                                          busquedaResultados.clear();
+                                          setState(() {});
                                         }),
                                       )
                                     : const SizedBox(
@@ -129,17 +136,20 @@ class HomePageState extends ConsumerState<HomePage> {
                   ),
                   isVisible
                       ? TextButton(
-                          onPressed: (() {
-                            // deleteSearch();
-                          }),
                           child: const Text(
                             "Cancel",
                             style: TextStyle(fontSize: 20),
                           ),
+                          onPressed: () {
+                            isVisible = false;
+                            borrarBusqueda();
+                            busquedaResultados.clear();
+                            setState(() {});
+                          },
                         )
                       : const SizedBox(
                           width: 0,
-                        )
+                        ),
                 ],
               ),
               ListView.builder(
@@ -159,6 +169,7 @@ class HomePageState extends ConsumerState<HomePage> {
                           ),
                         ),
                       );
+                      isVisible = false;
                       borrarBusqueda();
                       busquedaResultados.clear();
                       setState(() {});
