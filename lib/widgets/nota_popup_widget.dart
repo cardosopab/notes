@@ -43,7 +43,7 @@ Future<dynamic> notaPopupWidget(BuildContext context, WidgetRef ref) {
           TextButton(
             onPressed: () {
               DateTime date = DateTime.now();
-              int angle = ObjetoRandom().randomBetween(345, 360);
+              int angle = ObjetoRandom().randomBetween(350, 355);
               int color = ObjetoRandom().colorRandom();
               ref.read(notasStateNotifierProvider.notifier).addNota(Nota(
                     titulo: tituloController.text,
