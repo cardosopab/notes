@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-
-import '../functions/reordernar_lista.dart';
-import '../models/nota.dart';
+import '../funciones/reordernar_lista.dart';
+import '../modelos/nota.dart';
 
 String valorEscogido = "Fecha";
-Future<dynamic> settingsPopupWidget(BuildContext context, List<Nota> notas) async {
+Future<dynamic> ajustesDialogoWidget(BuildContext context, List<Nota> listaDeNotas) async {
   return showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -46,14 +45,22 @@ Future<dynamic> settingsPopupWidget(BuildContext context, List<Nota> notas) asyn
           ),
           TextButton(
             onPressed: () {
-              if (valorEscogido == 'Titulo') {
-                Reordenar().porTitulo(notas);
-              }
-              if (valorEscogido == 'Fecha') {
-                Reordenar().porFecha(notas);
-              }
-              if (valorEscogido == 'Cuerpo') {
-                Reordenar().porCuerpo(notas);
+              switch (valorEscogido) {
+                case 'Titulo':
+                  {
+                    Reordenar().porTitulo(listaDeNotas);
+                  }
+                  break;
+                case 'Fecha':
+                  {
+                    Reordenar().porFecha(listaDeNotas);
+                  }
+                  break;
+                case 'Cuerpo':
+                  {
+                    Reordenar().porCuerpo(listaDeNotas);
+                  }
+                  break;
               }
               Navigator.of(context).pop();
             },

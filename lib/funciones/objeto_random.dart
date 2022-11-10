@@ -1,12 +1,12 @@
 import 'dart:math' as math;
 
 class ObjetoRandom {
-  int randomBetween(int min, int max) {
+  int randomNumberoEntre(int min, int max) {
     return min + math.Random().nextInt(max - min);
   }
 
   int colorRandom() {
-    List<int> darkPastelList = [
+    List<int> coloresPastelesOscuros = [
       0xffC54B6C,
       0xff26474E,
       0xff938F43,
@@ -15,6 +15,6 @@ class ObjetoRandom {
       0xff46302B,
     ];
 
-    return darkPastelList[math.Random().nextInt(5)];
+    return coloresPastelesOscuros[math.Random().nextInt(5)];
   }
 }

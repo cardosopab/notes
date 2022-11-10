@@ -1,16 +1,3 @@
 # notas
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Projecto CRUD de notas, usando flutter_riverpod, y shared_preferences para salvar las notas en el dispositivo. Con EditableText en la pagina de la nota, cual te deja editar tu nota solo con un tap. 
