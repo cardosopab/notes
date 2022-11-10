@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,8 +9,6 @@ import 'package:notas/services/preferences_list.dart';
 import 'package:notas/services/providers.dart';
 import '../models/nota.dart';
 import '../widgets/nota_popup_widget.dart';
-import 'dart:math' as math;
-
 import '../widgets/setttings_popup_widget.dart';
 
 class HomePage extends ConsumerStatefulWidget {
@@ -20,6 +19,11 @@ class HomePage extends ConsumerStatefulWidget {
 }
 
 class HomePageState extends ConsumerState<HomePage> {
+  final TextEditingController searchController = TextEditingController();
+  final focusNode = FocusNode();
+  List<Nota> busquedaResultados = [];
+  bool isVisible = false;
+
   @override
   void initState() {
     super.initState();
@@ -32,9 +36,6 @@ class HomePageState extends ConsumerState<HomePage> {
     });
   }
 
-  final gridViewController = ScrollController();
-  final TextEditingController searchController = TextEditingController();
-  final focusNode = FocusNode();
   @override
   void dispose() {
     focusNode.dispose();
@@ -42,12 +43,13 @@ class HomePageState extends ConsumerState<HomePage> {
   }
 
   void borrarBusqueda() {
+    focusNode.unfocus();
     searchController.clear();
+    busquedaResultados.clear();
+    isVisible = false;
+    setState(() {});
   }
 
-  List<Nota> busquedaResultados = [];
-
-  bool isVisible = false;
   @override
   Widget build(BuildContext context) {
     List<Nota> notas = ref.watch(notasStateNotifierProvider);
@@ -67,11 +69,7 @@ class HomePageState extends ConsumerState<HomePage> {
       body: SafeArea(
         child: GestureDetector(
           onTap: () {
-            focusNode.unfocus();
             borrarBusqueda();
-            busquedaResultados.clear();
-            isVisible = false;
-            setState(() {});
           },
           child: Column(
             children: [
@@ -95,13 +93,7 @@ class HomePageState extends ConsumerState<HomePage> {
                                 isVisible = false;
                               } else {
                                 isVisible = true;
-                                List<Nota> listaDeTitulos = [];
-                                List<Nota> listaDeCuerpo = [];
-
-                                listaDeTitulos = Busqueda().buscaTitulo(ref, valor);
-                                listaDeCuerpo = Busqueda().buscaCuerpo(ref, valor);
-                                busquedaResultados = listaDeTitulos + listaDeCuerpo;
-                                busquedaResultados = busquedaResultados.toSet().toList();
+                                busquedaResultados = Busqueda().busqueda(ref, valor, busquedaResultados);
                               }
                               setState(() {});
                             },
@@ -118,11 +110,8 @@ class HomePageState extends ConsumerState<HomePage> {
                                     ? IconButton(
                                         icon: const Icon(Icons.cancel),
                                         onPressed: (() {
-                                          // deleteSearch();
                                           isVisible = false;
                                           borrarBusqueda();
-                                          busquedaResultados.clear();
-                                          setState(() {});
                                         }),
                                       )
                                     : const SizedBox(
@@ -143,8 +132,6 @@ class HomePageState extends ConsumerState<HomePage> {
                           onPressed: () {
                             isVisible = false;
                             borrarBusqueda();
-                            busquedaResultados.clear();
-                            setState(() {});
                           },
                         )
                       : const SizedBox(
@@ -171,8 +158,6 @@ class HomePageState extends ConsumerState<HomePage> {
                       );
                       isVisible = false;
                       borrarBusqueda();
-                      busquedaResultados.clear();
-                      setState(() {});
                     },
                     child: Card(
                       color: Color(busquedaResultados[index].color),
@@ -187,7 +172,6 @@ class HomePageState extends ConsumerState<HomePage> {
               Expanded(
                 child: GridView.builder(
                   dragStartBehavior: DragStartBehavior.down,
-                  controller: gridViewController,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
                   shrinkWrap: true,
                   itemCount: notas.length,
@@ -204,6 +188,10 @@ class HomePageState extends ConsumerState<HomePage> {
                             ),
                           ),
                         );
+                        if (isVisible == true) {
+                          isVisible == false;
+                          borrarBusqueda();
+                        }
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -213,15 +201,17 @@ class HomePageState extends ConsumerState<HomePage> {
                             color: Color(nota.color),
                             child: Stack(
                               children: [
-                                Positioned(
-                                  top: 0,
-                                  right: 0,
+                                Align(
+                                  alignment: Alignment.topRight,
                                   child: IconButton(
                                     padding: const EdgeInsets.all(5),
                                     constraints: const BoxConstraints(),
                                     onPressed: () {
+                                      //borrando nota de Riverpod
                                       ref.read(notasStateNotifierProvider.notifier).removeNota(nota.id);
+                                      //usando lista de notas nueva;
                                       List<Nota> notas = ref.watch(notasStateNotifierProvider);
+                                      //guardando la lista nueva a shared_preferences;
                                       PreferencesList().writeNotaPref(notas);
                                     },
                                     icon: const Icon(Icons.delete_forever),
@@ -235,6 +225,7 @@ class HomePageState extends ConsumerState<HomePage> {
                                         children: [
                                           Text(DateFormat.yMd().format(nota.fecha)),
                                           Text(
+                                            // si titulo.length es mas the 10, agrega '...'
                                             nota.titulo.length > 10 ? '${nota.titulo.substring(0, 9)}...' : nota.titulo,
                                             style: const TextStyle(
                                               fontSize: 18,
@@ -263,9 +254,6 @@ class HomePageState extends ConsumerState<HomePage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           notaPopupWidget(context, ref).then((value) => setState(() {})).then((_) {});
-          // PreferencesList().deleteNotaPref();
-          // gridViewController.animateTo(gridViewController.position.maxScrollExtent,
-          //       duration: const Duration(milliseconds: 600), curve: Curves.fastOutSlowIn);
         },
         child: const Icon(Icons.note_add),
       ),
