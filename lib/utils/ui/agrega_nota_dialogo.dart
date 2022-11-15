@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:notas/servicios/lista_de_preferencias.dart';
-import 'package:notas/servicios/proveedor.dart';
-import '../modelos/nota.dart';
-import '../funciones/objeto_random.dart';
+import 'package:notas/utils/servicios/lista_de_preferencias.dart';
+import 'package:notas/utils/servicios/lista_de_notas.dart';
+import '../../modelos/nota.dart';
+import '../funciones/aleatorio.dart';
 
 Future<dynamic> agregaNotaDialogoWidget(BuildContext context, WidgetRef ref) {
   return showDialog(
@@ -43,11 +43,12 @@ Future<dynamic> agregaNotaDialogoWidget(BuildContext context, WidgetRef ref) {
           ),
           TextButton(
             onPressed: () {
-              //coleccionando neuvos variables
+              /// Coleccionando neuvos variables
               DateTime fecha = DateTime.now();
-              int angulo = ObjetoRandom().randomNumberoEntre(350, 355);
-              int color = ObjetoRandom().colorRandom();
-              //agregando la nota con Riverpod
+              int angulo = Aleatorio().numerosAleatoriosDentroDe(350, 355);
+              int color = Aleatorio().colorAleatorio();
+
+              /// Agregando la nota con Riverpod
               ref.read(notasStateNotifierProvider.notifier).agregaNota(Nota(
                     titulo: controladorDeTextoDeTitulo.text,
                     cuerpo: controladorDeTextoDeCuerpo.text,
@@ -56,13 +57,15 @@ Future<dynamic> agregaNotaDialogoWidget(BuildContext context, WidgetRef ref) {
                     angulo: angulo,
                     color: color,
                   ));
-              //leyendo nueva lista de notas
+
+              /// Leyendo nueva lista de notas
               List<Nota> listaDeNotas = ref.watch(notasStateNotifierProvider);
-              //guardando nueva lista con shared_preferences
+
+              /// Guardando nueva lista con shared_preferences
               ListaDePreferencias().escribirNotaPref(listaDeNotas);
               Navigator.of(context).pop();
             },
-            child: const Text("Acceptar"),
+            child: const Text("Aceptar"),
           ),
         ],
       );

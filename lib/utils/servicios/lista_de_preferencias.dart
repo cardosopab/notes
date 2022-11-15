@@ -1,6 +1,6 @@
 import 'dart:convert' as convert;
 import 'package:shared_preferences/shared_preferences.dart';
-import '../modelos/nota.dart';
+import '../../modelos/nota.dart';
 
 class ListaDePreferencias {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();

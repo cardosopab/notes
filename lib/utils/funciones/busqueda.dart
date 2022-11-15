@@ -1,4 +1,4 @@
-import '../modelos/nota.dart';
+import '../../modelos/nota.dart';
 
 class Busqueda {
   List<Nota> busqueda(List<Nota> listaDeNotas, valor) {
@@ -7,7 +7,7 @@ class Busqueda {
 
     listaDeTitulos = Busqueda().buscaTitulo(listaDeNotas, valor);
     listaDeCuerpo = Busqueda().buscaCuerpo(listaDeNotas, valor);
-    // eliminado duplicados
+    /// Eliminado duplicados
     return (listaDeTitulos + listaDeCuerpo).toSet().toList();
   }
 

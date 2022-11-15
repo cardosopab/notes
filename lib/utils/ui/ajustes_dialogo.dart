@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../funciones/reordernar_lista.dart';
-import '../modelos/nota.dart';
+import '../../modelos/nota.dart';
 
 String valorEscogido = "Fecha";
 Future<dynamic> ajustesDialogoWidget(BuildContext context, List<Nota> listaDeNotas) async {
@@ -64,7 +64,7 @@ Future<dynamic> ajustesDialogoWidget(BuildContext context, List<Nota> listaDeNot
               }
               Navigator.of(context).pop();
             },
-            child: const Text("Acceptar"),
+            child: const Text("Aceptar"),
           ),
         ],
       );

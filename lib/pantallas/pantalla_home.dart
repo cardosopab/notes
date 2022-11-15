@@ -2,13 +2,13 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:notas/funciones/busqueda.dart';
+import 'package:notas/utils/funciones/busqueda.dart';
 import 'package:notas/pantallas/pantalla_nota.dart';
-import 'package:notas/servicios/lista_de_preferencias.dart';
-import 'package:notas/servicios/proveedor.dart';
+import 'package:notas/utils/servicios/lista_de_preferencias.dart';
+import 'package:notas/utils/servicios/lista_de_notas.dart';
 import '../modelos/nota.dart';
-import '../widgets/agrega_nota_dialogo.dart';
-import '../widgets/ajustes_dialogo.dart';
+import '../utils/ui/agrega_nota_dialogo.dart';
+import '../utils/ui/ajustes_dialogo.dart';
 
 class PantallaHome extends ConsumerStatefulWidget {
   const PantallaHome({super.key});
@@ -26,11 +26,10 @@ class PantallaHomeState extends ConsumerState<PantallaHome> {
   @override
   void initState() {
     super.initState();
-    //leer lista de preferencias,
-    //cual son notas guardadas en el dispositivo,
-    //con shared_preferences
+
+    /// Leer lista de preferencias, cual son notas guardadas en el dispositivo, con shared_preferences
     ListaDePreferencias().leerNotaPref().then((listaDePreferencias) {
-      //si no esta vacia, agrega la listaDePreferencias con Riverpod
+      /// Si no esta vacia, agrega la listaDePreferencias con Riverpod
       if (listaDePreferencias != null) {
         for (Nota nota in listaDePreferencias) {
           ref.read(notasStateNotifierProvider.notifier).agregaNota(nota);
@@ -55,7 +54,7 @@ class PantallaHomeState extends ConsumerState<PantallaHome> {
 
   @override
   Widget build(BuildContext context) {
-    // crear la listaDeNotas con Riverpod
+    /// Crear la listaDeNotas con Riverpod
     List<Nota> listaDeNotas = ref.watch(notasStateNotifierProvider);
     return Scaffold(
       appBar: AppBar(
@@ -111,7 +110,8 @@ class PantallaHomeState extends ConsumerState<PantallaHome> {
                                 iconColor: Colors.white,
                                 icon: const Icon(Icons.search),
                                 border: InputBorder.none,
-                                // si esVisible es sierto mostra los botones para borrar la busqueda
+
+                                /// Si esVisible es sierto, muestra los botones para borrar la busqueda
                                 suffixIcon: esVisible
                                     ? IconButton(
                                         icon: const Icon(Icons.cancel),
@@ -129,7 +129,8 @@ class PantallaHomeState extends ConsumerState<PantallaHome> {
                       ),
                     ),
                   ),
-                  // si esVisible es sierto mostra los botones para borrar la busqueda
+
+                  /// Si esVisible es sierto, muestra los botones para borrar la busqueda
                   esVisible
                       ? TextButton(
                           child: const Text(
@@ -152,7 +153,7 @@ class PantallaHomeState extends ConsumerState<PantallaHome> {
                 itemBuilder: (context, index) {
                   return InkWell(
                     onTap: () {
-                      //variables para el indice de listaDeNotas
+                      /// Variables para el indice de listaDeNotas
                       String id = listaDeResulatados[index].id;
                       int idx = listaDeNotas.indexWhere((element) => element.id == id);
                       Navigator.push(
@@ -193,7 +194,8 @@ class PantallaHomeState extends ConsumerState<PantallaHome> {
                             ),
                           ),
                         );
-                        //si esVisible es sierto borra la lista de resultos de la busqueda
+
+                        /// Si esVisible es sierto, borra la lista de resultos de la busqueda
                         if (esVisible == true) {
                           esVisible == false;
                           borrarBusqueda();
@@ -213,11 +215,13 @@ class PantallaHomeState extends ConsumerState<PantallaHome> {
                                     padding: const EdgeInsets.all(5),
                                     constraints: const BoxConstraints(),
                                     onPressed: () {
-                                      //borra nota con Riverpod
+                                      /// Borra la nota con Riverpod
                                       ref.read(notasStateNotifierProvider.notifier).eliminaNota(nota.id);
-                                      //lista de notas nueva
+
+                                      /// Lista de notas nueva
                                       List<Nota> listaDeNotas = ref.watch(notasStateNotifierProvider);
-                                      //guarda la lista nueva con shared_preferences
+
+                                      /// Guarda la lista nueva con shared_preferences
                                       ListaDePreferencias().escribirNotaPref(listaDeNotas);
                                     },
                                     icon: const Icon(Icons.delete_forever),
@@ -229,10 +233,10 @@ class PantallaHomeState extends ConsumerState<PantallaHome> {
                                     child: SingleChildScrollView(
                                       child: Column(
                                         children: [
-                                          //convierte fecha a formato de dia mes ano
+                                          /// Convierte fecha a formato de dia mes ano
                                           Text(DateFormat('dd/MM/yy').format(nota.fecha)),
                                           Text(
-                                            // si titulo.length es mas de 10, reemplaza el restante con '...'
+                                            /// Si titulo.length es mas de 10, reemplaza el restante con '...'
                                             nota.titulo.length > 10 ? '${nota.titulo.substring(0, 9)}...' : nota.titulo,
                                             style: const TextStyle(
                                               fontSize: 18,

@@ -1,4 +1,4 @@
-import '../modelos/nota.dart';
+import '../../modelos/nota.dart';
 
 class Reordenar {
   Future<void> porTitulo(List<Nota> listaDeNotas) async {
