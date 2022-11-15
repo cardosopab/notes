@@ -62,7 +62,7 @@ Future<dynamic> agregaNotaDialogo(BuildContext context, WidgetRef ref) {
               List<Nota> listaDeNotas = ref.watch(proveedorNotificadorDeEstadoDeNotas);
 
               /// Guardando nueva lista con shared_preferences
-              ListaDePreferencias().guardarNotaPref(listaDeNotas);
+              ListaDePreferencias().guardarNota(listaDeNotas);
               Navigator.of(context).pop();
             },
             child: const Text("Aceptar"),

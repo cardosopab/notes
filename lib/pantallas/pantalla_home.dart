@@ -28,7 +28,7 @@ class PantallaHomeState extends ConsumerState<PantallaHome> {
     super.initState();
 
     /// Leer lista de preferencias, cual son notas guardadas en el dispositivo, con shared_preferences
-    ListaDePreferencias().leerNotaPref().then((listaDePreferencias) {
+    ListaDePreferencias().leeListaDePref().then((listaDePreferencias) {
       /// Si no esta vacia, agrega la listaDePreferencias con Riverpod
       if (listaDePreferencias != null) {
         for (Nota nota in listaDePreferencias) {
@@ -222,7 +222,7 @@ class PantallaHomeState extends ConsumerState<PantallaHome> {
                                       List<Nota> listaDeNotas = ref.watch(proveedorNotificadorDeEstadoDeNotas);
 
                                       /// Guarda la lista nueva con shared_preferences
-                                      ListaDePreferencias().guardarNotaPref(listaDeNotas);
+                                      ListaDePreferencias().guardarNota(listaDeNotas);
                                     },
                                     icon: const Icon(Icons.delete_forever),
                                   ),

@@ -5,14 +5,14 @@ class ListaDePreferencias {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
 /// Guarda la lista de preferencias en el dispositivo
-  Future<void> guardarNotaPref(List<Nota> listaDeNotas) async {
+  Future<void> guardarNota(List<Nota> listaDeNotas) async {
     final SharedPreferences prefs = await _prefs;
     List<String> listaSP = listaDeNotas.map((nota) => convert.jsonEncode(nota.toJson())).toList();
     prefs.setStringList('Notas', listaSP);
   }
 
 /// Lee la lista de preferencias en el dispositivo
-  Future<List<Nota>?> leerNotaPref() async {
+  Future<List<Nota>?> leeListaDePref() async {
     final SharedPreferences prefs = await _prefs;
     List<String>? listaSP = prefs.getStringList('Notas');
     List<Nota> notasList = listaSP?.map((nota) => Nota.fromJson(convert.jsonDecode(nota))).toList() ?? [];
@@ -20,7 +20,7 @@ class ListaDePreferencias {
   }
 
 /// Borra la lista de preferencias en el dispositivo
-  Future<void> borrarNotaPref() async {
+  Future<void> borraLista() async {
     final SharedPreferences prefs = await _prefs;
     List<String> listaSP = [];
     prefs.setStringList('Notas', listaSP);

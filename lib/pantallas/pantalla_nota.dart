@@ -38,7 +38,7 @@ class PantallaNota extends ConsumerWidget {
 
                 /// Guarda nueva listaDeNotas con shared_preferences
                 final listaDeNotas = ref.watch(proveedorNotificadorDeEstadoDeNotas);
-                ListaDePreferencias().guardarNotaPref(listaDeNotas);
+                ListaDePreferencias().guardarNota(listaDeNotas);
               }
             },
             icon: const Icon(Icons.save),

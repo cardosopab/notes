@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../modelos/nota.dart';
-
+/// Creando una List<Nota> con estado
 class NotificadorDeNotas extends StateNotifier<List<Nota>> {
   NotificadorDeNotas() : super([]);
 
