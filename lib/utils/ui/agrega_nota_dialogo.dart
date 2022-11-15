@@ -5,7 +5,7 @@ import 'package:notas/utils/servicios/lista_de_notas.dart';
 import '../../modelos/nota.dart';
 import '../funciones/aleatorio.dart';
 
-Future<dynamic> agregaNotaDialogoWidget(BuildContext context, WidgetRef ref) {
+Future<dynamic> agregaNotaDialogo(BuildContext context, WidgetRef ref) {
   return showDialog(
     context: context,
     builder: (context) {
@@ -45,11 +45,11 @@ Future<dynamic> agregaNotaDialogoWidget(BuildContext context, WidgetRef ref) {
             onPressed: () {
               /// Coleccionando neuvos variables
               DateTime fecha = DateTime.now();
-              int angulo = Aleatorio().numerosAleatoriosDentroDe(350, 355);
+              int angulo = Aleatorio().anguloAleatorioDentroDe(350, 355);
               int color = Aleatorio().colorAleatorio();
 
               /// Agregando la nota con Riverpod
-              ref.read(notasStateNotifierProvider.notifier).agregaNota(Nota(
+              ref.read(proveedorNotificadorDeEstadoDeNotas.notifier).agregaNota(Nota(
                     titulo: controladorDeTextoDeTitulo.text,
                     cuerpo: controladorDeTextoDeCuerpo.text,
                     fecha: fecha,
@@ -59,10 +59,10 @@ Future<dynamic> agregaNotaDialogoWidget(BuildContext context, WidgetRef ref) {
                   ));
 
               /// Leyendo nueva lista de notas
-              List<Nota> listaDeNotas = ref.watch(notasStateNotifierProvider);
+              List<Nota> listaDeNotas = ref.watch(proveedorNotificadorDeEstadoDeNotas);
 
               /// Guardando nueva lista con shared_preferences
-              ListaDePreferencias().escribirNotaPref(listaDeNotas);
+              ListaDePreferencias().guardarNotaPref(listaDeNotas);
               Navigator.of(context).pop();
             },
             child: const Text("Aceptar"),

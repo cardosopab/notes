@@ -3,7 +3,7 @@ import '../funciones/reordernar_lista.dart';
 import '../../modelos/nota.dart';
 
 String valorEscogido = "Fecha";
-Future<dynamic> ajustesDialogoWidget(BuildContext context, List<Nota> listaDeNotas) async {
+Future<dynamic> ajustesDialogo(BuildContext context, List<Nota> listaDeNotas) async {
   return showDialog(
     context: context,
     builder: (BuildContext context) {

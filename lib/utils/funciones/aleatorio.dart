@@ -1,10 +1,12 @@
 import 'dart:math' as math;
 
 class Aleatorio {
-  int numerosAleatoriosDentroDe(int min, int max) {
+/// Creando angulo aleatorio, para la nota
+  int anguloAleatorioDentroDe(int min, int max) {
     return min + math.Random().nextInt(max - min);
   }
 
+/// Creando color aleatorio, para la nota
   int colorAleatorio() {
     List<int> coloresPastelesOscuros = [
       0xffC54B6C,

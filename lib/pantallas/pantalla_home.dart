@@ -32,7 +32,7 @@ class PantallaHomeState extends ConsumerState<PantallaHome> {
       /// Si no esta vacia, agrega la listaDePreferencias con Riverpod
       if (listaDePreferencias != null) {
         for (Nota nota in listaDePreferencias) {
-          ref.read(notasStateNotifierProvider.notifier).agregaNota(nota);
+          ref.read(proveedorNotificadorDeEstadoDeNotas.notifier).agregaNota(nota);
         }
       }
     });
@@ -55,13 +55,13 @@ class PantallaHomeState extends ConsumerState<PantallaHome> {
   @override
   Widget build(BuildContext context) {
     /// Crear la listaDeNotas con Riverpod
-    List<Nota> listaDeNotas = ref.watch(notasStateNotifierProvider);
+    List<Nota> listaDeNotas = ref.watch(proveedorNotificadorDeEstadoDeNotas);
     return Scaffold(
       appBar: AppBar(
         actions: [
           IconButton(
             onPressed: () {
-              ajustesDialogoWidget(context, listaDeNotas).then((_) => setState(() {}));
+              ajustesDialogo(context, listaDeNotas).then((_) => setState(() {}));
             },
             icon: const Icon(Icons.settings),
           )
@@ -216,13 +216,13 @@ class PantallaHomeState extends ConsumerState<PantallaHome> {
                                     constraints: const BoxConstraints(),
                                     onPressed: () {
                                       /// Borra la nota con Riverpod
-                                      ref.read(notasStateNotifierProvider.notifier).eliminaNota(nota.id);
+                                      ref.read(proveedorNotificadorDeEstadoDeNotas.notifier).eliminaNota(nota.id);
 
-                                      /// Lista de notas nueva
-                                      List<Nota> listaDeNotas = ref.watch(notasStateNotifierProvider);
+                                      /// Lista de notas nueva, sin la nota borrada
+                                      List<Nota> listaDeNotas = ref.watch(proveedorNotificadorDeEstadoDeNotas);
 
                                       /// Guarda la lista nueva con shared_preferences
-                                      ListaDePreferencias().escribirNotaPref(listaDeNotas);
+                                      ListaDePreferencias().guardarNotaPref(listaDeNotas);
                                     },
                                     icon: const Icon(Icons.delete_forever),
                                   ),
@@ -264,7 +264,7 @@ class PantallaHomeState extends ConsumerState<PantallaHome> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          agregaNotaDialogoWidget(context, ref);
+          agregaNotaDialogo(context, ref);
         },
         child: const Icon(Icons.note_add),
       ),

@@ -25,7 +25,7 @@ class PantallaNota extends ConsumerWidget {
             /// Si hubo cambios, bora la nota, y crea una nota nueva con cuerpo y titulo nuevo
             onPressed: () {
               if (nota.titulo != controladorDeTextoDeTitulo.text || nota.cuerpo != controladorDeTextoDeCuerpo.text) {
-                ref.read(notasStateNotifierProvider.notifier).actualizaNota(
+                ref.read(proveedorNotificadorDeEstadoDeNotas.notifier).actualizaNota(
                     Nota(
                       titulo: controladorDeTextoDeTitulo.text,
                       cuerpo: controladorDeTextoDeCuerpo.text,
@@ -37,8 +37,8 @@ class PantallaNota extends ConsumerWidget {
                     nota.id);
 
                 /// Guarda nueva listaDeNotas con shared_preferences
-                final listaDeNotas = ref.watch(notasStateNotifierProvider);
-                ListaDePreferencias().escribirNotaPref(listaDeNotas);
+                final listaDeNotas = ref.watch(proveedorNotificadorDeEstadoDeNotas);
+                ListaDePreferencias().guardarNotaPref(listaDeNotas);
               }
             },
             icon: const Icon(Icons.save),

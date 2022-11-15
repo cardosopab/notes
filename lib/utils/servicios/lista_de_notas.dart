@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../modelos/nota.dart';
 
-class NotasNotifier extends StateNotifier<List<Nota>> {
-  NotasNotifier() : super([]);
+class NotificadorDeNotas extends StateNotifier<List<Nota>> {
+  NotificadorDeNotas() : super([]);
 
   void agregaNota(Nota nota) {
     /// Agrega nota al estado
@@ -29,6 +29,6 @@ class NotasNotifier extends StateNotifier<List<Nota>> {
   }
 }
 
-final notasStateNotifierProvider = StateNotifierProvider<NotasNotifier, List<Nota>>((ref) {
-  return NotasNotifier();
+final proveedorNotificadorDeEstadoDeNotas = StateNotifierProvider<NotificadorDeNotas, List<Nota>>((ref) {
+  return NotificadorDeNotas();
 });

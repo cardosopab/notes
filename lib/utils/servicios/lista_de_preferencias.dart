@@ -1,16 +1,17 @@
 import 'dart:convert' as convert;
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../modelos/nota.dart';
-
 class ListaDePreferencias {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
-  Future<void> escribirNotaPref(List<Nota> listaDeNotas) async {
+/// Guarda la lista de preferencias en el dispositivo
+  Future<void> guardarNotaPref(List<Nota> listaDeNotas) async {
     final SharedPreferences prefs = await _prefs;
     List<String> listaSP = listaDeNotas.map((nota) => convert.jsonEncode(nota.toJson())).toList();
     prefs.setStringList('Notas', listaSP);
   }
 
+/// Lee la lista de preferencias en el dispositivo
   Future<List<Nota>?> leerNotaPref() async {
     final SharedPreferences prefs = await _prefs;
     List<String>? listaSP = prefs.getStringList('Notas');
@@ -18,6 +19,7 @@ class ListaDePreferencias {
     return notasList;
   }
 
+/// Borra la lista de preferencias en el dispositivo
   Future<void> borrarNotaPref() async {
     final SharedPreferences prefs = await _prefs;
     List<String> listaSP = [];
