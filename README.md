@@ -1,6 +1,6 @@
 # notes
 
-Notes app, using flutter_riverpod as the state manager, intl for date format, and shared_preferences to save data to the device.
+Utilizing the following packages, flutter_riverpod as the state management, intl to help with the date formating, json_annotation / json_serializable to create models, and shared_preferences for device storage.
 
 Check out the live web build!
 
