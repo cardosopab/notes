@@ -1,7 +1,7 @@
-# notas
+# notes
 
-Projecto CRUD de notas, usando flutter_riverpod, y shared_preferences para salvar las notas en el dispositivo. Con EditableText en la pagina de la nota, cual te deja editar tu nota solo con un tap. 
+Utilizing the following packages, flutter_riverpod as the state management, intl to help with the date formating, json_annotation / json_serializable to create models, and shared_preferences for device storage.
 
-visita la applicacion viva en la web!
+Check out the live web build!
 
-https://cardosopab-notas.web.app
+https://cardosopab-notes.web.app

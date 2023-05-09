@@ -1,51 +1,56 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'pantallas/pantalla_home.dart';
+import 'package:notes/constants/colors.dart';
+import 'screens/home.dart';
 
 void main() {
   if (kIsWeb) {
-    runApp(const ProviderScope(child: Center(child: SizedBox(width: 400, height: 800, child: MyApp()))));
+    runApp(const ProviderScope(child: Center(child: SizedBox(width: 400, height: 800, child: NoteApp()))));
   } else {
-    runApp(const ProviderScope(child: MyApp()));
+    runApp(const ProviderScope(child: NoteApp()));
   }
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class NoteApp extends StatelessWidget {
+  const NoteApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Notas',
+      title: 'Notes',
       theme: ThemeData(
         textSelectionTheme: const TextSelectionThemeData(
           cursorColor: Colors.white,
         ),
         brightness: Brightness.dark,
-        appBarTheme: const AppBarTheme(
-          backgroundColor: Color(0xff76504E),
+        appBarTheme: AppBarTheme(
+          backgroundColor: Constants().chocolate,
         ),
-        scaffoldBackgroundColor: const Color(0xff86736C),
+        scaffoldBackgroundColor: Constants().lightBrown,
         inputDecorationTheme: const InputDecorationTheme(
-          hintStyle: TextStyle(color: Colors.white),
+          hintStyle: TextStyle(color: Colors.white54),
           focusedBorder: UnderlineInputBorder(
             borderSide: BorderSide(
               color: Colors.white,
             ),
           ),
         ),
-        dialogTheme: const DialogTheme(
-          backgroundColor: Color(0xff76504E),
+        textButtonTheme: const TextButtonThemeData(
+          style: ButtonStyle(
+            foregroundColor: MaterialStatePropertyAll(Colors.white),
+          ),
         ),
-        textButtonTheme: const TextButtonThemeData(style: ButtonStyle(foregroundColor: MaterialStatePropertyAll(Colors.white))),
-        floatingActionButtonTheme: const FloatingActionButtonThemeData(
+        dialogTheme: DialogTheme(
+          backgroundColor: Constants().chocolate,
+        ),
+        floatingActionButtonTheme: FloatingActionButtonThemeData(
           foregroundColor: Colors.white,
-          backgroundColor: Color(0xff76504E),
+          backgroundColor: Constants().chocolate,
         ),
       ),
-      home: const PantallaHome(),
+      home: const Home(),
     );
   }
 }
